@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Pontuações</title>
+    </head>
+
+    <body>
+        <div class="container conteudo">
+            <h3 id='title'>Pontuação dos usuários</h3>
+            <div id="pontos-table-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>data</th>
+                        <th>pontuação (máx.: 3126)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% @pontos.each do |ponto| %>
+                    <tr>
+                        <td>
+                            <%= ponto.user_id %>
+                        </td>
+                        <td>
+                            <%= ponto.nome %>
+                        </td>
+                        <td>
+                            <%= ponto.dataPontuacao.strftime("%d/%m/%Y") %>
+                        </td>
+                        <td>
+                            <%= ponto.pontuacao %>
+                        </td>
+                    </tr>
+                    <% end %>
+                </tbody>
+
+            </table>
+            </div>
+        </div>
+        <footer>
+        <div id="powered-by" class="col-sm-3">
+            <%= image_tag("rails.png", size: "60x75") %>
+            <span style='vertical-align: bottom'><i>Powered by: </i> Douglas Cantão</span>
+        </div>
+        
+        </footer>
+    </body>
+
+    <script>
+        $(function(){
+            function getTable(){
+                $.get( "/pontos/ping", function( data ) {
+                    //debugger
+                    $( "#pontos-table-body" ).html( data );
+                });
+            }    
+
+            $(document).ready(function(e) {
+                e.preventDefault;
+            
+                 const refreshTable = window.setInterval(getTable, 3000)
+                //getTable()
+            });
+        });
+    </script>
+
+</html>
